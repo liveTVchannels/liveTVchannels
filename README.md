@@ -4,9 +4,12 @@ Hi ![](https://user-images.githubusercontent.com/18350557/176309783-0785949b-912
 I'm delighted to share with you my GitHub profile!
 --------------------------------------------------
 
-Embark on a journey of boundless entertainment with our platform! Dive into a world where possibilities are limitless, and discover a treasure trove of engaging content curated just for you. Whether you're a fan of riveting movies, captivating TV shows, or pulse-pounding music, our platform is your gateway to a universe of endless enjoyment. Unleash the power of choice as you explore a diverse range of genres, from thrilling adventures to heartwarming dramas, all at your fingertips. With a user-friendly interface and seamless navigation, we make it easy for you to customize your entertainment experience. Join our vibrant community and stay connected with fellow enthusiasts. Share your favorites, discover hidden gems, and embark on a shared journey of entertainment discovery. Plus, with regular updates and fresh content, there's always something new to captivate your senses. Get ready to transcend the ordinary and immerse yourself in a world where entertainment knows no bounds. Experience the extraordinary – join us on our platform and let the adventure begin!
+<p>Embark on a journey of boundless entertainment with our platform! Dive into a world where possibilities are limitless, and discover a treasure trove of engaging content curated just for you. Whether you&#39;re a fan of riveting movies, captivating TV shows, or pulse-pounding music, our platform is your gateway to a universe of endless enjoyment.</p>
+<p>Unleash the power of choice as you explore a diverse range of genres, from thrilling adventures to heartwarming dramas, all at your fingertips. With a user-friendly interface and seamless navigation, we make it easy for you to customize your entertainment experience.</p>
+<p>Join our vibrant community and stay connected with fellow enthusiasts. Share your favorites, discover hidden gems, and embark on a shared journey of entertainment discovery. Plus, with regular updates and fresh content, there&#39;s always something new to captivate your senses.</p>
+<p>Get ready to transcend the ordinary and immerse yourself in a world where entertainment knows no bounds. Experience the extraordinary – join us on our platform and let the adventure begin!</p>
 
-* 🌍  I'm based in Internet
+* 🌍  I'm based on the Internet
 * ✉️  You can contact me at [trieu.oiv@gmail.com](mailto:trieu.oiv@gmail.com)
 * 🚀  I'm currently working on [Live TV channels](http://live-tv-channels.org)
 
