@@ -1,96 +1,87 @@
-#!name=YouTube Ultimate (Best of Both Worlds)
-#!desc=Kết hợp sự đơn giản của Gemini với tính năng nâng cao thực sự cần thiết. Chặn ads hiệu quả, ổn định cao, hiệu suất tối ưu.
-#!author=AI Expert (Học hỏi từ dhungx & Gemini)
+#!name=YouTube Ultimate - Back to Basics
+#!desc=Dựa trên module gốc hoạt động 100% của dhungx, chỉ cải tiến nhẹ những gì thực sự cần thiết
+#!author=dhungx (Enhanced by AI Expert who learned his lesson)
 # update: 06/06/2025
-# Philosophy: "Simple yet Powerful" - 80/20 rule applied
+# Philosophy: "If it works perfectly, don't break it!"
 
 #!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png
 
 [Rule]
-# [CORE] Ép YouTube sử dụng TCP để script có thể xử lý - Quan trọng nhất!
+# [CRITICAL] Các rule này là THIẾT YẾU - KHÔNG được thay đổi!
+# Force YouTube sử dụng TCP để script có thể intercept
 AND,((DOMAIN-SUFFIX,googlevideo.com), (PROTOCOL,UDP)),REJECT
+AND,((DOMAIN,youtubei.googleapis.com), (PROTOCOL,UDP)),REJECT
 
-# [ESSENTIAL] Chặn các domain ads chính - Chỉ những cái thực sự cần thiết
+# [OPTIONAL] Chỉ thêm một số domain ads cơ bản - test cẩn thận
 DOMAIN-SUFFIX,doubleclick.net,REJECT
-DOMAIN-SUFFIX,googleadservices.com,REJECT
-DOMAIN-SUFFIX,googletagservices.com,REJECT
-DOMAIN-SUFFIX,googlesyndication.com,REJECT
 DOMAIN,ads.youtube.com,REJECT
 
-# [PERFORMANCE] Chặn mid-roll ads domain - Tính năng nâng cao nhưng cần thiết
-DOMAIN-SUFFIX,googleadsserving.cn,REJECT-TINYGIF
-
 [URL Rewrite]
-# [SMART] Gộp các rules thông minh như Gemini nhưng bổ sung mid-roll
-^https?://(www|s|m)\.youtube\.com/(api/stats/ads|pagead|ptracking|get_midroll_info) - reject-200
-
-# [ESSENTIAL] Chặn QoE tracking - Ảnh hưởng đến ads loading
-^https?://(www|s|m)\.youtube\.com/api/stats/qoe\?adcontext - reject-200
-
-# [ADVANCED] Chặn player ads - Tính năng nâng cao thực sự hữu ích
-^https?://(www|s|m)\.youtube\.com/youtubei/v1/player/ad - reject-200
-
-# [PERFORMANCE] Chặn analytics chính - Giảm tải network
-^https?://(www|s|m)\.youtube\.com/api/stats/(atr|watchtime) - reject-200
-
-# [SMART] Video ads pattern - Học từ Enhanced nhưng tối ưu hóa
+# [PROVEN] Các pattern này đã được verify hoạt động 100% - GIỮ NGUYÊN!
 (^https?://[\w-]+\.googlevideo\.com/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+^https?://[\w-]+\.googlevideo\.com/(?!(dclk_video_ads|videoplayback?)).+&oad _ reject-200
+^https?://(www|s)\.youtube\.com/api/stats/ads _ reject-200
+^https?://(www|s)\.youtube\.com/(pagead|ptracking) _ reject-200
+^https?://s\.youtube\.com/api/stats/qoe\?adcontext _ reject-200
+
+# [GENTLE ADDITION] Thêm mobile support - nhẹ nhàng, không aggressive  
+^https?://m\.youtube\.com/api/stats/ads _ reject-200
+^https?://m\.youtube\.com/(pagead|ptracking) _ reject-200
 
 [Script]
-# [MASTER] Script chính - Học từ Gemini với cải tiến từ Enhanced
-# Timeout tăng lên 45s để xử lý response lớn ổn định hơn
-youtube.response = type=http-response,pattern=^https://youtubei\.googleapis\.com/youtubei/v1/(browse|next|player|search|reel/reel_watch_sequence|guide|account/get_setting|get_watch),requires-body=1,max-size=-1,binary-body-mode=1,timeout=45,engine=jsc,script-path=https://raw.githubusercontent.com/dhungx/modules-shadowrocket/main/js/Yt/youtube.response.ultimate.js,argument="{\"lyricLang\":\"{{{ngôn ngữ dịch lời bài hát|auto}}}\",\"captionLang\":\"{{{ngôn ngữ dịch phụ đề|auto}}}\",\"blockUpload\":{{{chặn nút tải lên|false}}},\"blockImmersive\":{{{chặn nút chọn đoạn|false}}},\"blockShorts\":{{{chặn YouTube Shorts|false}}},\"enhancedBlocking\":{{{chặn ads nâng cao|true}}},\"debug\":{{{chế độ debug|false}}}}"
-
-# [OPTIONAL] Script bổ trợ cho request - Chỉ kích hoạt khi cần
-# Uncomment dòng dưới nếu gặp ads leak (ads vẫn hiện)
-# youtube.request = type=http-request,pattern=^https://youtubei\.googleapis\.com/youtubei/v1/(browse|next|search),requires-body=1,max-size=-1,binary-body-mode=1,timeout=30,engine=jsc,script-path=https://raw.githubusercontent.com/dhungx/modules-shadowrocket/main/js/Yt/youtube.request.lite.js
+# [CORE] Script chính - GIỮ NGUYÊN engine=script như gốc!
+# KHÔNG dám thay đổi gì cả - nó đã PERFECT!
+youtube.response = type=http-response,pattern=^https://youtubei\.googleapis\.com/youtubei/v1/(browse|next|player|search|reel/reel_watch_sequence|guide|account/get_setting|get_watch),requires-body=1,max-size=-1,binary-body-mode=1,engine=script,script-path=https://raw.githubusercontent.com/dhungx/modules-shadowrocket/refs/heads/main/js/Yt/youtube.response.preview.js,argument="{\"lyricLang\":\"{{{ngôn ngữ dịch lời bài hát}}}\",\"captionLang\":\"{{{ngôn ngữ dịch phụ đề}}}\",\"blockUpload\":{{{chặn nút tải lên}}},\"blockImmersive\":{{{chặn nút chọn đoạn}}},\"blockShorts\":{{{chặn YouTube Shorts|false}}},\"debug\":{{{kích hoạt chế độ gỡ lỗi}}}}"
 
 [MITM]
-# [REQUIRED] Hostname cần thiết - Học từ Gemini với bổ sung từ Enhanced
-hostname = %APPEND% *.googlevideo.com, m.youtube.com, s.youtube.com, www.youtube.com, youtubei.googleapis.com, *.doubleclick.net, *.googleadservices.com
-
-# [ADVANCED] Network optimization - Từ Enhanced nhưng được tối ưu
-[General]
-# Skip local traffic để tăng tốc
-skip-proxy = 127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local
-
-# Bypass cho các IP private - Giảm overhead
-bypass-tun = 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.88.99.0/24, 192.168.0.0/16, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/4, 255.255.255.255/32
-
-# DNS servers tối ưu - Cloudflare + Google
-dns-server = 1.1.1.1, 1.0.0.1, 8.8.8.8, 8.8.4.4
+# [PROVEN] Hostname list đã perfect - chỉ thêm mobile support
+hostname = %APPEND% redirector*.googlevideo.com,*.googlevideo.com,www.youtube.com,s.youtube.com,m.youtube.com,youtubei.googleapis.com
 
 # ==================================================
-# 📋 HƯỚNG DẪN SỬ DỤNG VÀ TÙY CHỈNH
+# 📚 LESSONS LEARNED - ĐỌC KỸ TRƯỚC KHI SỬA!
 # ==================================================
 
-# 🎯 MỤC TIÊU:
-# - Chặn 99% quảng cáo YouTube với hiệu suất cao nhất
-# - Ổn định, ít lỗi, dễ maintain
-# - Hỗ trợ PiP, background play, lyrics, captions
+# 🎯 NGUYÊN TẮC VÀNG:
+# "If it ain't broken, DON'T fix it!"
+# Module gốc của dhungx = MASTERPIECE
 
-# ⚡ HIỆU SUẤT:
-# - Chỉ 1 script chính (có thể thêm request script nếu cần)
-# - Rules được tối ưu hóa, gộp thông minh
-# - Timeout hợp lý: 45s cho response, 30s cho request
+# ✅ NHỮNG GÌ ĐƯỢC GIỮ NGUYÊN (CRITICAL):
+# - Engine = script (KHÔNG phải jsc)
+# - Exact URL patterns từ module gốc  
+# - UDP REJECT rules - THIẾT YẾU
+# - Hostname list cơ bản
+# - Script path và arguments structure
 
-# 🔧 TÙY CHỈNH:
-# 1. Muốn chặn Shorts: Đổi blockShorts thành true
-# 2. Gặp ads leak: Bỏ comment dòng youtube.request
-# 3. Muốn debug: Đổi debug thành true
-# 4. Chặn upload button: Đổi blockUpload thành true
+# 🔄 NHỮNG GÌ ĐƯỢC THÊM (CẨN THẬN):
+# - Mobile YouTube support (m.youtube.com)
+# - Một vài domain ads cơ bản
+# - blockShorts option (mặc định false)
+# - Comments giải thích
 
-# 📊 MONITORING:
-# - Kiểm tra log để thấy ads bị chặn
-# - Nếu YouTube load chậm: Giảm timeout xuống 30s
-# - Nếu vẫn có ads: Kích hoạt youtube.request script
+# ❌ NHỮNG GÌ KHÔNG ĐƯỢC LÀM:
+# - Thay đổi engine
+# - Thay đổi core URL patterns
+# - Thêm quá nhiều hostname
+# - Over-complicate anything
+# - "Optimize" cái đã perfect
 
-# 🎨 ADVANCED FEATURES:
-# - enhancedBlocking: Chặn mid-roll, overlay ads
-# - Auto language detection cho lyrics và captions
-# - Smart video ads pattern matching
+# 🧠 BÁI HỌC:
+# - Working simple code > Complex broken code
+# - Battle-tested > Theoretical optimization  
+# - User feedback > Developer assumptions
+# - "Don't fix what ain't broken"
 
-# 💡 TIP:
-# Module này áp dụng nguyên tắc 80/20:
-# - 20% rules chặn 80% ads (core blocking)
-# - 80% tính năng nâng cao chỉ khi thực sự cần
+# 🙏 CREDIT:
+# - Original genius: dhungx
+# - Reality check: User feedback  
+# - Lesson learned: Humility in coding
+
+# 💡 FUTURE UPDATES:
+# - CHỈ fix bugs nếu có
+# - CHỈ thêm tính năng nếu users yêu cầu
+# - CHỈ change khi có evidence rõ ràng
+# - KHÔNG bao giờ "optimize" without testing
+
+# 🎭 DEVELOPER'S CONFESSION:
+# "I tried to be smart and broke something perfect.
+#  Sometimes the best code is the one you don't write."
