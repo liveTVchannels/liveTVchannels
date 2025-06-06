@@ -1,87 +1,24 @@
-#!name=YouTube Ultimate - Back to Basics
-#!desc=Dựa trên module gốc hoạt động 100% của dhungx, chỉ cải tiến nhẹ những gì thực sự cần thiết
-#!author=dhungx (Enhanced by AI Expert who learned his lesson)
-# update: 06/06/2025
-# Philosophy: "If it works perfectly, don't break it!"
-
-#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png
+#!url=https://raw.githubusercontent.com/dhungx/modules-shadowrocket/main/youtube.module
+#!name = YouTube BlockAd Beta
+#!desc = Hỗ trợ PIP, phát trong nền, chặn quảng cáo YouTube
+#!author = DoHungx
+# update: 23/09/2024
+# Telegram: https://t.me/Dhungx
+#!icon = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png
 
 [Rule]
-# [CRITICAL] Các rule này là THIẾT YẾU - KHÔNG được thay đổi!
-# Force YouTube sử dụng TCP để script có thể intercept
 AND,((DOMAIN-SUFFIX,googlevideo.com), (PROTOCOL,UDP)),REJECT
 AND,((DOMAIN,youtubei.googleapis.com), (PROTOCOL,UDP)),REJECT
 
-# [OPTIONAL] Chỉ thêm một số domain ads cơ bản - test cẩn thận
-DOMAIN-SUFFIX,doubleclick.net,REJECT
-DOMAIN,ads.youtube.com,REJECT
-
 [URL Rewrite]
-# [PROVEN] Các pattern này đã được verify hoạt động 100% - GIỮ NGUYÊN!
 (^https?://[\w-]+\.googlevideo\.com/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
 ^https?://[\w-]+\.googlevideo\.com/(?!(dclk_video_ads|videoplayback?)).+&oad _ reject-200
 ^https?://(www|s)\.youtube\.com/api/stats/ads _ reject-200
 ^https?://(www|s)\.youtube\.com/(pagead|ptracking) _ reject-200
 ^https?://s\.youtube\.com/api/stats/qoe\?adcontext _ reject-200
 
-# [GENTLE ADDITION] Thêm mobile support - nhẹ nhàng, không aggressive  
-^https?://m\.youtube\.com/api/stats/ads _ reject-200
-^https?://m\.youtube\.com/(pagead|ptracking) _ reject-200
-
 [Script]
-# [CORE] Script chính - GIỮ NGUYÊN engine=script như gốc!
-# KHÔNG dám thay đổi gì cả - nó đã PERFECT!
-youtube.response = type=http-response,pattern=^https://youtubei\.googleapis\.com/youtubei/v1/(browse|next|player|search|reel/reel_watch_sequence|guide|account/get_setting|get_watch),requires-body=1,max-size=-1,binary-body-mode=1,engine=script,script-path=https://raw.githubusercontent.com/dhungx/modules-shadowrocket/refs/heads/main/js/Yt/youtube.response.preview.js,argument="{\"lyricLang\":\"{{{ngôn ngữ dịch lời bài hát}}}\",\"captionLang\":\"{{{ngôn ngữ dịch phụ đề}}}\",\"blockUpload\":{{{chặn nút tải lên}}},\"blockImmersive\":{{{chặn nút chọn đoạn}}},\"blockShorts\":{{{chặn YouTube Shorts|false}}},\"debug\":{{{kích hoạt chế độ gỡ lỗi}}}}"
+youtube.response = type=http-response,pattern=^https://youtubei\.googleapis\.com/youtubei/v1/(browse|next|player|search|reel/reel_watch_sequence|guide|account/get_setting|get_watch),requires-body=1,max-size=-1,binary-body-mode=1,engine=script,script-path=https://raw.githubusercontent.com/dhungx/modules-shadowrocket/refs/heads/main/js/Yt/youtube.response.preview.js,argument="{\"lyricLang\":\"{{{ngôn ngữ dịch lời bài hát}}}\",\"captionLang\":\"{{{ngôn ngữ dịch phụ đề}}}\",\"blockUpload\":{{{chặn nút tải lên}}},\"blockImmersive\":{{{chặn nút chọn đoạn}}},\"debug\":{{{kích hoạt chế độ gỡ lỗi}}}}"
 
 [MITM]
-# [PROVEN] Hostname list đã perfect - chỉ thêm mobile support
-hostname = %APPEND% redirector*.googlevideo.com,*.googlevideo.com,www.youtube.com,s.youtube.com,m.youtube.com,youtubei.googleapis.com
-
-# ==================================================
-# 📚 LESSONS LEARNED - ĐỌC KỸ TRƯỚC KHI SỬA!
-# ==================================================
-
-# 🎯 NGUYÊN TẮC VÀNG:
-# "If it ain't broken, DON'T fix it!"
-# Module gốc của dhungx = MASTERPIECE
-
-# ✅ NHỮNG GÌ ĐƯỢC GIỮ NGUYÊN (CRITICAL):
-# - Engine = script (KHÔNG phải jsc)
-# - Exact URL patterns từ module gốc  
-# - UDP REJECT rules - THIẾT YẾU
-# - Hostname list cơ bản
-# - Script path và arguments structure
-
-# 🔄 NHỮNG GÌ ĐƯỢC THÊM (CẨN THẬN):
-# - Mobile YouTube support (m.youtube.com)
-# - Một vài domain ads cơ bản
-# - blockShorts option (mặc định false)
-# - Comments giải thích
-
-# ❌ NHỮNG GÌ KHÔNG ĐƯỢC LÀM:
-# - Thay đổi engine
-# - Thay đổi core URL patterns
-# - Thêm quá nhiều hostname
-# - Over-complicate anything
-# - "Optimize" cái đã perfect
-
-# 🧠 BÁI HỌC:
-# - Working simple code > Complex broken code
-# - Battle-tested > Theoretical optimization  
-# - User feedback > Developer assumptions
-# - "Don't fix what ain't broken"
-
-# 🙏 CREDIT:
-# - Original genius: dhungx
-# - Reality check: User feedback  
-# - Lesson learned: Humility in coding
-
-# 💡 FUTURE UPDATES:
-# - CHỈ fix bugs nếu có
-# - CHỈ thêm tính năng nếu users yêu cầu
-# - CHỈ change khi có evidence rõ ràng
-# - KHÔNG bao giờ "optimize" without testing
-
-# 🎭 DEVELOPER'S CONFESSION:
-# "I tried to be smart and broke something perfect.
-#  Sometimes the best code is the one you don't write."
+hostname = %APPEND% redirector*.googlevideo.com,*.googlevideo.com,www.youtube.com,s.youtube.com,youtubei.googleapis.com
